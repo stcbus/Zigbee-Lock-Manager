@@ -15,6 +15,11 @@ async def async_setup_entry(hass, entry):
     """Set up Zigbee Lock Manager from a config entry."""
     slot_count = entry.data.get("slot_count")
     lock_name = entry.data.get("lock_name")
+    slot_offset = entry.data.get("slot_offset")
+
+    if slot_offset:
+        slot_count = slot_count + slot_offset
+
 
     # Step 1: Create the YAML-based helpers and automations
     await create_helpers_and_automations(hass, slot_count, lock_name, entry)

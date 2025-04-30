@@ -44,6 +44,7 @@ class LockCodeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         schema = vol.Schema({
             vol.Required("slot_count", default=1): vol.Coerce(int),
             vol.Required("lock_name", default=lock_entities[0]): vol.In(lock_entities),
+            vol.Optional("slot_offset", default=None): vol.Coerce(int),
         })
 
         return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
