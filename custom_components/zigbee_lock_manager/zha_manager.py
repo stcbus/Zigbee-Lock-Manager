@@ -33,7 +33,7 @@ async def create_integration_device(hass, config_entry, lock_name):
         sw_version="1.0"
     )
 
-async def create_helpers_and_automations(hass: HomeAssistant, slot_count: int, lock_name: str, config_entry):
+async def create_helpers_and_automations(hass: HomeAssistant, slot_count: int, lock_name: str, slot_offset: int, config_entry):
     """Create helpers and automations."""
     package_path = hass.config.path(PACKAGE_DIR)
     
@@ -63,7 +63,11 @@ async def create_helpers_and_automations(hass: HomeAssistant, slot_count: int, l
         yaml_file_path = os.path.join(package_path, f"{lock_name.replace('.', '_')}_slot_{slot}.yaml")
 
         # Replace the placeholders in the template for the current slot
-        final_yaml_content = template.render(lock_name=lock_name, slot=slot)
+        if slot_offset:
+            code_slot = slot + slot_offset
+        else:
+            code_slot = slot
+        final_yaml_content = template.render(lock_name=lock_name, slot=slot, code_slot=code_slot)
 
         # Write the final YAML content to the corresponding slot file
         async with aiofiles.open(yaml_file_path, 'w') as yaml_file:

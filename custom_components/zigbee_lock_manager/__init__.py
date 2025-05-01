@@ -22,7 +22,7 @@ async def async_setup_entry(hass, entry):
 
 
     # Step 1: Create the YAML-based helpers and automations
-    await create_helpers_and_automations(hass, slot_count, lock_name, entry)
+    await create_helpers_and_automations(hass, slot_count, lock_name, slot_offset, entry)
 
     # Step 2: Reload automations and input helpers
     await hass.services.async_call("automation", "reload")
